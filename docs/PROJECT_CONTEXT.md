@@ -60,7 +60,7 @@ Nobody — neither previous students nor this analysis — has demonstrated a ru
 
 - **The physical communication interface between the external computer and the robot has not been finalized.** `UNRESOLVED`
 
-  No transport is confirmed. Do **not** assume USB, Wi-Fi, Ethernet, serial, or any other specific transport when writing code, designing experiments, or making architectural claims. This item must be resolved before the real-robot deployment path can be specified, but it **does not block** Isaac Sim / Isaac Lab development, which is the current priority.
+  No transport is confirmed. Do **not** assume USB, Wi-Fi, Ethernet, serial, or any other specific transport when writing code, designing experiments, or making architectural claims. This item must be resolved before the real-robot deployment path can be specified, but it **does not block** Isaac Sim / Isaac Lab development. See §2.4 for where simulation sits in the near-term ordering.
 
 ### 2.3 Proposed (not confirmed)
 
@@ -68,9 +68,30 @@ Nobody — neither previous students nor this analysis — has demonstrated a ru
 
   Rationale: a tethered link could simplify early control-stack bring-up and sim-to-real validation by removing variable latency as a confounding variable while the policy transfer itself is still unproven. This is an engineering suggestion under consideration, **not a decided system fact**, and must not be recorded elsewhere as confirmed.
 
-### 2.4 Priority Ordering for Component Evaluation
+### 2.4 Near-Term Project Priority
+
+`CONFIRMED` (advisor-directed)
+
+**The research is centred on the current/new robot.** The predecessor robot and its implementations are not the research target. They are retained as historical context and evidence only, and **must not drive the development roadmap** unless a specific legacy component is demonstrably useful for the current robot.
+
+**This project is not an effort to restore the predecessor system.** The legacy Jetson architecture, the abandoned control stack, and predecessor implementations are documented in §7 for context. Documenting them is not a commitment to repair them.
+
+The advisor's immediate priority is to obtain **rigorous experimental data from the capabilities of the current robot**. Near-term ordering:
+
+1. Establish the current/new robot as the experimental platform.
+2. Determine which claimed or existing capabilities of the current robot can actually be reproduced.
+3. Design quantitative experiments and collect real performance data for those capabilities.
+4. Establish measurable baselines before introducing more advanced methods.
+5. Use those baselines to identify where a research contribution can be made.
+6. Prioritise Isaac Sim / Isaac Lab and methods relevant to the new robot when simulation or RL becomes useful.
+
+Note the ordering: simulation and RL enter at step 6, **after** measurable baselines exist on real hardware. This document's archaeology (§3–§9) exists to inform steps 1–2 — to establish what is reproducible and what is not — rather than to define repair work.
+
+### 2.5 Priority Ordering for Component Evaluation
 
 When deciding what to preserve, repair, minimally modify, or rewrite, prioritise components supporting: external-computer control; ROS2 communication; Isaac Sim / Isaac Lab development; sim-to-real transfer; physical robot joint/actuator interfaces.
+
+A legacy component earns a place in the roadmap only when it is **demonstrably useful for the current robot** — not because it exists, and not because it once worked.
 
 ---
 
@@ -365,6 +386,8 @@ ORPHANED
 
 **This section documents the previous system. It is historical context, clearly separated from the intended architecture in §2. It is recorded because it explains why the current code looks as it does — not because the new project depends on it.**
 
+**Nothing in this section is a development priority.** Per §2.4, the predecessor system is evidence, not a target: no item here should be scheduled as work unless it is demonstrably useful for the current robot. Restoring the predecessor system is explicitly out of scope.
+
 ### 7.1 The old architecture was Jetson-centric
 
 The inherited system ran **onboard a Jetson Nano** with:
@@ -474,6 +497,8 @@ Therefore the co-located script did **not** produce the committed data, and the 
 ---
 
 ## 10. Component Triage for the New Direction
+
+This table **classifies inherited components; it is not a work queue and implies no ordering.** Per §2.4, the near-term priority is establishing the current robot as an experimental platform and collecting baseline data — not acting on these verdicts. A `PRESERVE` verdict means "worth keeping if it proves useful for the current robot", and `RETIRE` means "do not invest here", neither of which schedules work.
 
 | Component | Verdict | Rationale |
 |---|---|---|
